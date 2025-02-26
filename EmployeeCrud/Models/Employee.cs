@@ -8,13 +8,29 @@ using EmployeeCrud.Models.Interfaces;
 
 namespace EmployeeCrud.Models
 {
-    public class Employee : Entity
+    public class Employee : Person
     {
-        public  string Name { get; set; }
-        public string Position { get; set; }
-        public decimal Salary { get; set; }
-        public Department Department { get; set; }
-        public Address Address { get; set; }
+        private decimal _salary;
+        private Department _department;
+        private Address _address;
+
+        public decimal Salary
+        {
+            get => _salary;
+            set => _salary = value;
+        }
+
+        public Department Department
+        {
+            get => _department;
+            set => _department = value;
+        }
+
+        public Address Address
+        {
+            get => _address;
+            set => _address = value;
+        }
     }
 
     // Department class

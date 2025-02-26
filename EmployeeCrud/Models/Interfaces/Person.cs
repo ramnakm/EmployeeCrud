@@ -7,11 +7,23 @@ using Newtonsoft.Json;
 
 namespace EmployeeCrud.Models.Interfaces
 {
-    public abstract class Person : IPerson
+    public abstract class Person : Entity
     {
-        [JsonProperty(PropertyName = "id")]
+        private string _name;
+        private string _position;
+
         public string Id { get; set; }
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
+
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        public string Position
+        {
+            get => _position;
+            set => _position = value;
+        }
     }
 }
