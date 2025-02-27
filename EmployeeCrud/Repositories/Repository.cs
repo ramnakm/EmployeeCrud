@@ -21,8 +21,7 @@ namespace EmployeeCrud.Repositories
 
         public virtual async Task<T> GetById(string id)
         {
-            return await _dbContext.Set<T>()
-                .FirstOrDefaultAsync(entity => entity.Id == id);
+            return await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
         public virtual async Task<IEnumerable<T>> GetAll()
