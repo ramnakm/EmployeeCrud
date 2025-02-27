@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using EmployeeCrud.Models.Interfaces;
+using Xunit.Sdk;
 
 namespace EmployeeCrud.Models
 {
@@ -14,18 +16,21 @@ namespace EmployeeCrud.Models
         private Department _department;
         private Address _address;
 
+        [Range(0, double.MaxValue, ErrorMessage = "Salary must be a non-negative value.")]
         public decimal Salary
         {
             get => _salary;
             set => _salary = value;
         }
 
+        [Required(ErrorMessage = "Department is required.")]
         public Department Department
         {
             get => _department;
             set => _department = value;
         }
 
+        [Required(ErrorMessage = "Address is required.")]
         public Address Address
         {
             get => _address;

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using EmployeeCrud.Models;
 using EmployeeCrud.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -28,6 +29,15 @@ namespace EmployeeCrud
             try
             {
                 var employee = JsonConvert.DeserializeObject<Employee>(empJson);
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(employee);
+
+                if (!Validator.TryValidateObject(employee, validationContext, validationResults, true))
+                {
+                    var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
+                    return new BadRequestObjectResult($"Validation failed: {errors}");
+                }
+
                 var createdEmployee = await _employeeService.Create(employee);
                 _logger.LogInformation($"C# HTTP trigger function processed a request to create Employee: {createdEmployee.Id}");
                 return new OkObjectResult(createdEmployee);
@@ -85,6 +95,15 @@ namespace EmployeeCrud
             {
                 var employee = JsonConvert.DeserializeObject<Employee>(empJson);
                 employee.Id = id;
+                var validationResults = new List<ValidationResult>();
+                var validationContext = new ValidationContext(employee);
+
+                if (!Validator.TryValidateObject(employee, validationContext, validationResults, true))
+                {
+                    var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
+                    return new BadRequestObjectResult($"Validation failed: {errors}");
+                }
+
                 var updatedEmployee = await _employeeService.Update(employee);
                 _logger.LogInformation($"C# HTTP trigger function processed a request to update employee with id: {id}");
                 return new OkObjectResult(updatedEmployee);
