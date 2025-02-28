@@ -13,20 +13,29 @@ using Newtonsoft.Json;
 
 namespace EmployeeCrud
 {
-
+    /// <summary>
+    /// This class contains the functions for handling employee operations.
+    /// </summary>
     public class EmployeeFunction
     {
         private readonly ILogger<EmployeeFunction> _logger;
 
         private readonly IEmployeeService _employeeService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmployeeFunction"/> class.
+        /// </summary>
         public EmployeeFunction(ILogger<EmployeeFunction> logger, IEmployeeService employeeService)
         {
             _logger = logger;
             _employeeService = employeeService;
         }
 
-        // This function handles the creation of a new employee
+        /// <summary>
+        /// This function creates a new employee. OpenAPI attributes are used to generate the Swagger UI.
+        /// </summary>
+        /// <param name="req">The HTTP request containing the employee data.</param>
+        /// <returns>An IActionResult indicating the result of the operation</returns>
         [OpenApiOperation(operationId: "Run", tags: new[] { "Create Employee" })]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be added")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -62,7 +71,12 @@ namespace EmployeeCrud
             }
         }
 
-        // This function retrieves an employee by their ID
+        /// <summary>
+        /// This function retrieves an employee by their ID. OpenAPI attributes are used to generate the Swagger UI.
+        /// </summary>
+        /// <param name="req">The HTTP request.</param>
+        /// <param name="id">The ID of the employee to retrieve.</param>
+        /// <returns>An IActionResult containing the employee data or a not found result.</returns>
         [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employee By Id" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -87,7 +101,11 @@ namespace EmployeeCrud
             }
         }
 
-        // This function retrieves all employees
+        /// <summary>
+        /// This function retrieves all employees. OpenAPI attributes are used to generate the Swagger UI.
+        /// </summary>
+        /// <param name="req">The HTTP request.</param>
+        /// <returns>An IActionResult containing the list of employees.</returns>
         [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employees" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("GetEmployees")]
@@ -107,7 +125,12 @@ namespace EmployeeCrud
             }
         }
 
-        // This function updates an existing employee
+        /// <summary>
+        /// This function updates an employee by their ID. OpenAPI attributes are used to generate the Swagger UI.
+        /// </summary>
+        /// <param name="req">The HTTP request containing the updated employee data.</param>
+        /// <param name="id">The ID of the employee to update.</param>
+        /// <returns>An IActionResult indicating the result of the operation.</returns>
         [OpenApiOperation(operationId: "Run", tags: new[] { "Update Employee" })]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be updated")]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
@@ -145,7 +168,12 @@ namespace EmployeeCrud
             }
         }
 
-        // This function deletes an employee by their ID
+        /// <summary>
+        /// This function deletes an employee by their ID. OpenAPI attributes are used to generate the Swagger UI.
+        /// </summary>
+        /// <param name="req">The HTTP request.</param>
+        /// <param name="id">The ID of the employee to delete.</param>
+        /// <returns>An IActionResult indicating the result of the operation.</returns>
         [OpenApiOperation(operationId: "Run", tags: new[] { "Delete Employee" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]

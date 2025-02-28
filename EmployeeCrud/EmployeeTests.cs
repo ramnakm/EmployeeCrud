@@ -8,6 +8,12 @@ namespace EmployeeCrud.Tests
 {
     public class EmployeeTests
     {
+        /// <summary>
+        /// Validates the given model and returns the validation results.
+        /// </summary>
+        /// <param name="model">The model to validate.</param>
+        /// <param name="results">The validation results.</param>
+        /// <returns>True if the model is valid, otherwise false.</returns>
         private bool ValidateModel(object model, out List<ValidationResult> results)
         {
             var context = new ValidationContext(model, null, null);
@@ -15,6 +21,9 @@ namespace EmployeeCrud.Tests
             return Validator.TryValidateObject(model, context, results, true);
         }
 
+        /// <summary>
+        /// Tests that the Employee's salary should be a non-negative value.
+        /// </summary>
         [Fact]
         public void Employee_Salary_ShouldBeNonNegative()
         {
@@ -29,6 +38,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Salary must be a non-negative value.");
         }
 
+        /// <summary>
+        /// Tests that the Employee's department should be required.
+        /// </summary>
         [Fact]
         public void Employee_Department_ShouldBeRequired()
         {
@@ -43,6 +55,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Department is required.");
         }
 
+        /// <summary>
+        /// Tests that the Employee's address should be required.
+        /// </summary>
         [Fact]
         public void Employee_Address_ShouldBeRequired()
         {
@@ -57,6 +72,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Address is required.");
         }
 
+        /// <summary>
+        /// Tests that the Employee model is valid.
+        /// </summary>
         [Fact]
         public void Employee_ValidModel_ShouldPassValidation()
         {
@@ -82,6 +100,12 @@ namespace EmployeeCrud.Tests
 
     public class PersonTests
     {
+        /// <summary>
+        /// Validates the given model and returns the validation results.
+        /// </summary>
+        /// <param name="model">The model to validate.</param>
+        /// <param name="results">The validation results.</param>
+        /// <returns>True if the model is valid, otherwise false.</returns>
         private bool ValidateModel(object model, out List<ValidationResult> results)
         {
             var context = new ValidationContext(model, null, null);
@@ -89,6 +113,9 @@ namespace EmployeeCrud.Tests
             return Validator.TryValidateObject(model, context, results, true);
         }
 
+        /// <summary>
+        /// Tests that the Person's name should be required.
+        /// </summary>
         [Fact]
         public void Person_Name_ShouldBeRequired()
         {
@@ -103,6 +130,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Name is required.");
         }
 
+        /// <summary>
+        /// Tests that the Person's name should not exceed the maximum length.
+        /// </summary>
         [Fact]
         public void Person_Name_ShouldNotExceedMaxLength()
         {
@@ -117,6 +147,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Name length can't be more than 100 characters.");
         }
 
+        /// <summary>
+        /// Tests that the Person's position should be required.
+        /// </summary>
         [Fact]
         public void Person_Position_ShouldBeRequired()
         {
@@ -131,6 +164,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Position is required.");
         }
 
+        /// <summary>
+        /// Tests that the Person's position should not exceed the maximum length.
+        /// </summary>
         [Fact]
         public void Person_Position_ShouldNotExceedMaxLength()
         {
@@ -145,6 +181,9 @@ namespace EmployeeCrud.Tests
             Assert.Contains(results, v => v.ErrorMessage == "Position length can't be more than 50 characters.");
         }
 
+        /// <summary>
+        /// Tests that the Person model is valid.
+        /// </summary>
         [Fact]
         public void Person_ValidModel_ShouldPassValidation()
         {
@@ -164,8 +203,14 @@ namespace EmployeeCrud.Tests
         }
     }
 
+    /// <summary>
+    /// Tests for the Department class.
+    /// </summary>
     public class DepartmentTests
     {
+        /// <summary>
+        /// Tests that the Department class should set and get properties correctly.
+        /// </summary>
         [Fact]
         public void Department_ShouldSetAndGetProperties()
         {
@@ -184,6 +229,9 @@ namespace EmployeeCrud.Tests
 
     public class AddressTests
     {
+        /// <summary>
+        /// Tests that the Address class should set and get properties correctly.
+        /// </summary>
         [Fact]
         public void Address_ShouldSetAndGetProperties()
         {

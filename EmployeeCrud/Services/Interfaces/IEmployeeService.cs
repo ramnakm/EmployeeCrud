@@ -8,7 +8,8 @@ using EmployeeCrud.Models;
 namespace EmployeeCrud.Services.Interfaces
 {
     // Interface for employee-specific service operations
-    public interface IEmployeeService : IService<Employee>
+    public interface IEmployeeService : IService<Employee> 
     {
+        // Actual implementation of employee-specific operations
     }
 }

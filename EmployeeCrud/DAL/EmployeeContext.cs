@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using EmployeeCrud.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeCrud
+namespace EmployeeCrud.DAL
 {
     public class EmployeeContext : DbContext
     {
