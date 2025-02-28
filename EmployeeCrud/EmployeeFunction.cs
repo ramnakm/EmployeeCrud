@@ -1,16 +1,19 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using EmployeeCrud.Models;
 using EmployeeCrud.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-//using Microsoft.Azure.WebJobs;
-//using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
 namespace EmployeeCrud
 {
+
     public class EmployeeFunction
     {
         private readonly ILogger<EmployeeFunction> _logger;
@@ -23,6 +26,9 @@ namespace EmployeeCrud
             _employeeService = employeeService;
         }
 
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Create Employee" })]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be added")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "employees")] HttpRequest req)
         {
@@ -52,6 +58,9 @@ namespace EmployeeCrud
             }
         }
 
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employee By Id" })]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("GetEmployeeById")]
         public async Task<IActionResult> GetEmployeeById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "employees/{id}")] HttpRequest req, string id)
         {
@@ -72,6 +81,8 @@ namespace EmployeeCrud
             }
         }
 
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employees" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("GetEmployees")]
         public async Task<IActionResult> GetEmployees([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "employees")] HttpRequest req)
         {
@@ -88,6 +99,10 @@ namespace EmployeeCrud
             }
         }
 
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Update Employee" })]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be updated")]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "employees/{id}")] HttpRequest req, string id)
         {
@@ -118,6 +133,9 @@ namespace EmployeeCrud
             }
         }
 
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Delete Employee" })]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("DeleteEmployee")]
         public async Task<IActionResult> DeleteEmployee([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "employees/{id}")] HttpRequest req, string id)
         {
