@@ -10,12 +10,14 @@ using Xunit.Sdk;
 
 namespace EmployeeCrud.Models
 {
+    // Employee class inheriting from Person
     public class Employee : Person
     {
         private decimal _salary;
         private Department _department;
         private Address _address;
 
+        // Salary property with validation to ensure non-negative value
         [Range(0, double.MaxValue, ErrorMessage = "Salary must be a non-negative value.")]
         public decimal Salary
         {
@@ -23,6 +25,7 @@ namespace EmployeeCrud.Models
             set => _salary = value;
         }
 
+        // Department property with validation to ensure it is required
         [Required(ErrorMessage = "Department is required.")]
         public Department Department
         {
@@ -30,6 +33,7 @@ namespace EmployeeCrud.Models
             set => _department = value;
         }
 
+        // Address property with validation to ensure it is required
         [Required(ErrorMessage = "Address is required.")]
         public Address Address
         {
@@ -38,14 +42,14 @@ namespace EmployeeCrud.Models
         }
     }
 
-    // Department class
+    // Department class representing an employee's department
     public class Department
     {
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
     }
 
-    // Address class
+    // Address class representing an employee's address
     public class Address
     {
         public string Street { get; set; }

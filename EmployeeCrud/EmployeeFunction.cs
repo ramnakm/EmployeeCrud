@@ -26,6 +26,7 @@ namespace EmployeeCrud
             _employeeService = employeeService;
         }
 
+        // This function handles the creation of a new employee
         [OpenApiOperation(operationId: "Run", tags: new[] { "Create Employee" })]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be added")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -36,16 +37,19 @@ namespace EmployeeCrud
             var empJson = await reader.ReadToEndAsync();
             try
             {
+                // Deserialize the request body to an Employee object
                 var employee = JsonConvert.DeserializeObject<Employee>(empJson);
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(employee);
 
+                // Validate the Employee object
                 if (!Validator.TryValidateObject(employee, validationContext, validationResults, true))
                 {
                     var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
                     return new BadRequestObjectResult($"Validation failed: {errors}");
                 }
 
+                // Create the employee using the service
                 var createdEmployee = await _employeeService.Create(employee);
                 _logger.LogInformation($"C# HTTP trigger function processed a request to create Employee: {createdEmployee.Id}");
                 return new OkObjectResult(createdEmployee);
@@ -58,6 +62,7 @@ namespace EmployeeCrud
             }
         }
 
+        // This function retrieves an employee by their ID
         [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employee By Id" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -66,6 +71,7 @@ namespace EmployeeCrud
         {
             try
             {
+                // Retrieve the employee by ID using the service.
                 var employee = await _employeeService.GetById(id);
                 if (employee == null)
                 {
@@ -81,6 +87,7 @@ namespace EmployeeCrud
             }
         }
 
+        // This function retrieves all employees
         [OpenApiOperation(operationId: "Run", tags: new[] { "Get Employees" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [Function("GetEmployees")]
@@ -88,6 +95,7 @@ namespace EmployeeCrud
         {
             try
             {
+                // Retrieve all employees using the service
                 var employees = await _employeeService.GetAll();
                 _logger.LogInformation("C# HTTP trigger function processed a request to fetch all employees");
                 return new OkObjectResult(employees);
@@ -99,6 +107,7 @@ namespace EmployeeCrud
             }
         }
 
+        // This function updates an existing employee
         [OpenApiOperation(operationId: "Run", tags: new[] { "Update Employee" })]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Employee), Required = true, Description = "Employee object that needs to be updated")]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
@@ -110,17 +119,20 @@ namespace EmployeeCrud
             var empJson = await reader.ReadToEndAsync();
             try
             {
+                // Deserialize the request body to an Employee object
                 var employee = JsonConvert.DeserializeObject<Employee>(empJson);
                 employee.Id = id;
                 var validationResults = new List<ValidationResult>();
                 var validationContext = new ValidationContext(employee);
 
+                // Validate the Employee object
                 if (!Validator.TryValidateObject(employee, validationContext, validationResults, true))
                 {
                     var errors = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
                     return new BadRequestObjectResult($"Validation failed: {errors}");
                 }
 
+                // Update the employee using the service
                 var updatedEmployee = await _employeeService.Update(employee);
                 _logger.LogInformation($"C# HTTP trigger function processed a request to update employee with id: {id}");
                 return new OkObjectResult(updatedEmployee);
@@ -133,6 +145,7 @@ namespace EmployeeCrud
             }
         }
 
+        // This function deletes an employee by their ID
         [OpenApiOperation(operationId: "Run", tags: new[] { "Delete Employee" })]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The employee id")]    
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -141,6 +154,7 @@ namespace EmployeeCrud
         {
             try
             {
+                // Delete the employee using the service
                 await _employeeService.Delete(id);
                 _logger.LogInformation($"C# HTTP trigger function processed a request to delete employee with id: {id}");
                 return new NoContentResult();

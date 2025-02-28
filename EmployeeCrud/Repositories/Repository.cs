@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeCrud.Repositories
 {
+    // Abstract repository class implementing the generic repository interface
     public abstract class Repository<T> : IRepository<T> where T : class, IEntity
     {
         protected readonly DbContext _dbContext;
@@ -19,21 +20,25 @@ namespace EmployeeCrud.Repositories
             _dbContext = dbContext;
         }
 
+        // Retrieve an entity by its ID
         public virtual async Task<T> GetById(string id)
         {
             return await _dbContext.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
+        // Retrieve all entities
         public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
 
+        // Retrieve entities based on a condition
         public virtual async Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression)
         {
             return await _dbContext.Set<T>().Where(expression).ToListAsync();
         }
 
+        // Create a new entity
         public virtual async Task<T> Create(T entity)
         {
             if (entity.Id is null)
@@ -47,6 +52,7 @@ namespace EmployeeCrud.Repositories
             return await GetById(entity.Id);
         }
 
+        // Update an existing entity
         public virtual async Task<T> Update(T entity)
         {
             var entry = _dbContext.Add(entity);
@@ -58,6 +64,7 @@ namespace EmployeeCrud.Repositories
             return await GetById(entity.Id);
         }
 
+        // Delete an entity by its ID
         public virtual async Task Delete(string id)
         {
             var entity = await GetById(id);

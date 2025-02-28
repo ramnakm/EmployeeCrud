@@ -7,8 +7,10 @@ using EmployeeCrud.Models;
 
 namespace EmployeeCrud.Repositories
 {
+    // EmployeeRepository class inheriting from the generic Repository class
     public class EmployeeRepository : Repository<Employee>
     {
+        // Constructor to initialize the EmployeeContext
         public EmployeeRepository(EmployeeContext dbContext) : base(dbContext) { }
     }
 }

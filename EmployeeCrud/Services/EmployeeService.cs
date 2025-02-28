@@ -9,8 +9,10 @@ using EmployeeCrud.Services.Interfaces;
 
 namespace EmployeeCrud.Services
 {
+    // EmployeeService class inheriting from the generic Service class and implementing the IEmployeeService interface
     public class EmployeeService : Service<Employee> , IEmployeeService
     {
+        // Constructor to initialize the EmployeeService with the repository
         public EmployeeService(IRepository<Employee> repository) : base(repository) { }
     }
 }
